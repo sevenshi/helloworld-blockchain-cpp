@@ -4,6 +4,9 @@
 
 #include "AccountUtil.h"
 #include "ByteUtil.h"
+#include "Ripemd160Util.h"
+#include "Sha256Util.h"
+#include "Base58Util.h"
 #include <string>
 #include <stdio.h>
 #include <iostream>
@@ -58,6 +61,7 @@ Account AccountUtil::randomAccount() {
     Account a;
     a.privateKey = stringPrivateKey;
     a.publicKey = stringPublicKey;
+    a.address = addressFromPublicKey(stringPublicKey);
     EC_KEY_free(key);
     return a;
 }
@@ -65,7 +69,7 @@ Account AccountUtil::randomAccount() {
 Account AccountUtil::accountFromPrivateKey(string privateKey) {
     BIGNUM *priv_key;
     priv_key = BN_new();
-    int a = BN_hex2bn(&priv_key,privateKey.c_str());
+    BN_hex2bn(&priv_key,privateKey.c_str());
 
     EC_GROUP *group = EC_GROUP_new_by_curve_name(NID_secp256k1);
     EC_KEY *key = EC_KEY_new();
@@ -84,6 +88,27 @@ Account AccountUtil::accountFromPrivateKey(string privateKey) {
     Account account;
     account.privateKey = stringPrivateKey;
     account.publicKey = stringPublicKey;
+    account.address = addressFromPublicKey(stringPublicKey);
     EC_KEY_free(key);
     return account;
+}
+
+string AccountUtil::addressFromPublicKey(string publicKey) {
+    string publicKeyHash = Ripemd160Util::digest(Sha256Util::digest(publicKey));
+    return base58AddressFromPublicKeyHash0(publicKeyHash);
+}
+const string VERSION = "00";
+
+string AccountUtil::base58AddressFromPublicKeyHash0(string bytesPublicKeyHash) {
+    //地址版本号(1个字节)与公钥哈希(20个字节)
+    string bytesVersionAndPublicKeyHash = ByteUtil::concatenate(VERSION,bytesPublicKeyHash);
+    //地址校验码(4个字节)
+    string bytesCheckCode = ByteUtil::copy(Sha256Util::doubleDigest(bytesVersionAndPublicKeyHash), 0, 4);
+
+    //地址(25个字节)=地址版本号(1个字节)+公钥哈希(20个字节)+地址校验码(4个字节)
+    string bytesAddress = ByteUtil::concatenate(bytesVersionAndPublicKeyHash,bytesCheckCode);
+
+    //用Base58编码地址
+    string base58Address = Base58Util::encode(bytesAddress);
+    return base58Address;
 }

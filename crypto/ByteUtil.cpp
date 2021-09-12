@@ -35,3 +35,9 @@ vector<unsigned char> ByteUtil::HexToBytes(const string& hex) {
     }
     return bytes;
 }
+string ByteUtil::copy(string sourceBytes, int startPosition, int length){
+    return sourceBytes.substr(startPosition*2,length*2);
+}
+string ByteUtil::concatenate(string bytes1,string bytes2){
+    return bytes1+bytes2;
+}

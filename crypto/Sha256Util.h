@@ -9,6 +9,7 @@ using namespace std;
 
 namespace Sha256Util{
     string digest(string input);
+    string doubleDigest(string input);
 }
 
 

@@ -19,6 +19,9 @@ class Account{
 namespace AccountUtil {
     Account randomAccount() ;
     Account accountFromPrivateKey(string privateKey);
+    string addressFromPublicKey(string privateKey);
+    string base58AddressFromPublicKeyHash0(string bytesPublicKeyHash);
+
 };
 
 

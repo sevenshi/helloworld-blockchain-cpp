@@ -13,6 +13,8 @@ namespace ByteUtil {
     string uchar2hex(unsigned char inchar);
     string uchars2hex(unsigned char* uchars,int length);
     vector<unsigned char> HexToBytes(const string& hex);
+    string copy(string sourceBytes, int startPosition, int length);
+    string concatenate(string bytes1,string bytes2);
 };
 
 

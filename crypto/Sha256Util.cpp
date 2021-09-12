@@ -22,3 +22,7 @@ string Sha256Util::digest(string input)
     string sha256 = ByteUtil::uchars2hex(result,sizeof result);
     return sha256;
 }
+string Sha256Util::doubleDigest(string input)
+{
+    return digest(digest(input));
+}
