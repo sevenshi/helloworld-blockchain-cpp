@@ -1,0 +1,24 @@
+//
+// Created by 40906 on 2021/9/12.
+//
+
+#ifndef HELLOWORLD_BLOCKCHAIN_CPP_ACCOUNTUTIL_H
+#define HELLOWORLD_BLOCKCHAIN_CPP_ACCOUNTUTIL_H
+#include <string>
+using namespace std;
+
+
+class Account{
+    public:
+        string privateKey;
+        string publicKey;
+        string publicKeyHash;
+        string address;
+};
+
+namespace AccountUtil {
+    Account randomAccount() ;
+};
+
+
+#endif //HELLOWORLD_BLOCKCHAIN_CPP_ACCOUNTUTIL_H
