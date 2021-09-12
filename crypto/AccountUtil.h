@@ -18,6 +18,7 @@ class Account{
 
 namespace AccountUtil {
     Account randomAccount() ;
+    Account accountFromPrivateKey(string privateKey);
 };
 
 

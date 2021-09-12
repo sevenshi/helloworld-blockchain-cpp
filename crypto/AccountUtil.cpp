@@ -62,3 +62,28 @@ Account AccountUtil::randomAccount() {
     return a;
 }
 
+Account AccountUtil::accountFromPrivateKey(string privateKey) {
+    BIGNUM *priv_key;
+    priv_key = BN_new();
+    int a = BN_hex2bn(&priv_key,privateKey.c_str());
+
+    EC_GROUP *group = EC_GROUP_new_by_curve_name(NID_secp256k1);
+    EC_KEY *key = EC_KEY_new();
+    EC_POINT *pub_key = EC_POINT_new(group);
+
+    EC_KEY_set_group(key, group);
+    EC_KEY_set_private_key(key, priv_key);
+    EC_POINT_mul(group, pub_key, priv_key, NULL, NULL, NULL);
+    EC_KEY_set_public_key(key, pub_key);
+
+    char* stringPrivateKey = BN_bn2hex(priv_key);
+
+    EC_GROUP *ec_group = EC_GROUP_new_by_curve_name(NID_secp256k1);
+    char* stringPublicKey =  EC_POINT_point2hex(ec_group, pub_key,POINT_CONVERSION_COMPRESSED,NULL);
+
+    Account account;
+    account.privateKey = stringPrivateKey;
+    account.publicKey = stringPublicKey;
+    EC_KEY_free(key);
+    return account;
+}
