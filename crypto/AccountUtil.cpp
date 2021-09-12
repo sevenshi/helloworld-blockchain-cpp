@@ -61,6 +61,7 @@ Account AccountUtil::randomAccount() {
     Account a;
     a.privateKey = stringPrivateKey;
     a.publicKey = stringPublicKey;
+    a.publicKeyHash = publicKeyHashFromPublicKey(stringPublicKey);
     a.address = addressFromPublicKey(stringPublicKey);
     EC_KEY_free(key);
     return a;
@@ -88,13 +89,14 @@ Account AccountUtil::accountFromPrivateKey(string privateKey) {
     Account account;
     account.privateKey = stringPrivateKey;
     account.publicKey = stringPublicKey;
+    account.publicKeyHash = publicKeyHashFromPublicKey(stringPublicKey);
     account.address = addressFromPublicKey(stringPublicKey);
     EC_KEY_free(key);
     return account;
 }
 
 string AccountUtil::addressFromPublicKey(string publicKey) {
-    string publicKeyHash = Ripemd160Util::digest(Sha256Util::digest(publicKey));
+    string publicKeyHash = publicKeyHashFromPublicKey(publicKey);
     return base58AddressFromPublicKeyHash0(publicKeyHash);
 }
 const string VERSION = "00";
@@ -111,4 +113,7 @@ string AccountUtil::base58AddressFromPublicKeyHash0(string bytesPublicKeyHash) {
     //用Base58编码地址
     string base58Address = Base58Util::encode(bytesAddress);
     return base58Address;
+}
+string AccountUtil::publicKeyHashFromPublicKey(string publicKey) {
+    return Ripemd160Util::digest(Sha256Util::digest(publicKey));
 }

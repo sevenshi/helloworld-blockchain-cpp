@@ -21,7 +21,7 @@ namespace AccountUtil {
     Account accountFromPrivateKey(string privateKey);
     string addressFromPublicKey(string privateKey);
     string base58AddressFromPublicKeyHash0(string bytesPublicKeyHash);
-
+    string publicKeyHashFromPublicKey(string publicKey);
 };
 
 

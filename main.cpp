@@ -21,11 +21,13 @@ int main()
     cout << "---------------------account" << endl;
     cout << account.privateKey << endl;
     cout << account.publicKey << endl;
+    cout << account.publicKeyHash << endl;
     cout << account.address << endl;
     Account account2 = AccountUtil::accountFromPrivateKey(account.privateKey);
     cout << "---------------------account2" << endl;
     cout << account2.privateKey << endl;
     cout << account2.publicKey << endl;
+    cout << account2.publicKeyHash << endl;
     cout << account2.address << endl;
     return 0;
 }
