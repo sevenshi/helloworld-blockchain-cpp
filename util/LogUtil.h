@@ -8,10 +8,17 @@
 
 using namespace std;
 
-namespace LogUtil {
-    void error(string message, exception exception);
-    void debug(string message);
-};
+typedef enum LogLevel {
+    LOG_DEBUG,
+    LOG_ERROR,
+}LogLevel;
 
+namespace LogUtil {
+    void log(string file, string function, long line, unsigned int level, string message);
+
+#define debug(message) log(__FILE__, __FUNCTION__, __LINE__, LOG_DEBUG, message)
+#define error(message) log(__FILE__, __FUNCTION__, __LINE__, LOG_ERROR, message)
+
+}
 
 #endif //HELLOWORLD_BLOCKCHAIN_CPP_LOGUTIL_H
