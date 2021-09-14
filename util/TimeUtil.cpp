@@ -16,8 +16,13 @@
 
 
 long TimeUtil::millisecondTimestamp(){
-    long ms = duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch()).count();
-    return ms ;
+    #ifdef _WIN32
+        //TODO
+        throw exception();
+    #else
+        long ms = duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch()).count();
+        return ms ;
+    #endif
 }
 
 string TimeUtil::formatMillisecondTimestamp(long millisecondTimestamp){
