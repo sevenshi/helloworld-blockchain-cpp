@@ -36,7 +36,7 @@ int main()
 
 
     cout << TimeUtil::millisecondTimestamp() << endl;
-    cout << TimeUtil::formatMillisecondTimestamp( TimeUtil::millisecondTimestamp()) << endl;
+    cout << TimeUtil::formatMillisecondTimestamp(TimeUtil::millisecondTimestamp()) << endl;
 
 
     return 0;

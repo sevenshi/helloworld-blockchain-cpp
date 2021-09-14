@@ -4,7 +4,7 @@
 #include <iostream>
 #include "SystemUtil.h"
 
-#ifdef _WIN32
+#if defined _WIN32 || defined _WIN64
 #else
 #include <unistd.h>
 #endif
@@ -14,7 +14,7 @@ void SystemUtil::errorExit(string message, exception exception){
 }
 string SystemUtil::systemRootDirectory(){
     string path;
-    #ifdef _WIN32
+    #if defined _WIN32 || defined _WIN64
         //TODO
         throw exception();
     #else

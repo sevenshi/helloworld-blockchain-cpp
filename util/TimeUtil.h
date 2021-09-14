@@ -9,8 +9,8 @@
 using namespace std;
 
 namespace TimeUtil {
-    long millisecondTimestamp();
-    string formatMillisecondTimestamp(long millisecondTimestamp);
+    unsigned long long millisecondTimestamp();
+    string formatMillisecondTimestamp(unsigned long long millisecondTimestamp);
 };
 
 
