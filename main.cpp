@@ -3,7 +3,10 @@
 #include "crypto/Ripemd160Util.h"
 #include "crypto/Base58Util.h"
 #include "crypto/AccountUtil.h"
+#include "util/ThreadUtil.h"
+#include "util/TimeUtil.h"
 #include <string>
+
 
 using namespace std;
 
@@ -29,5 +32,11 @@ int main()
     cout << account2.publicKey << endl;
     cout << account2.publicKeyHash << endl;
     cout << account2.address << endl;
+
+
+    cout << TimeUtil::millisecondTimestamp() << endl;
+    cout << TimeUtil::formatMillisecondTimestamp( TimeUtil::millisecondTimestamp()) << endl;
+
+
     return 0;
 }

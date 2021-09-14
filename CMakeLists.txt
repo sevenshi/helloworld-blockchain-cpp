@@ -5,6 +5,9 @@ set(CMAKE_CXX_STANDARD 14)
 set(project_name "helloworld_blockchain_cpp")
 set(openssl_path "D:\\libs\\openssl\\openssl-1.1.1-win32-debug")
 
+#mac
+#set(openssl_path "/usr/local/opt/openssl@1.1")
+
 add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
 add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
 
@@ -12,3 +15,6 @@ add_executable(${project_name} main.cpp crypto/Sha256Util.cpp crypto/Sha256Util.
 
 include_directories(${openssl_path}\\include)
 target_link_libraries(${project_name} ${openssl_path}\\lib\\libcrypto.lib ${openssl_path}\\lib\\libssl.lib)
+
+#mac
+#target_link_libraries(${project_name} ${openssl_path}/lib/libcrypto.dylib ${openssl_path}/lib/libssl.dylib)

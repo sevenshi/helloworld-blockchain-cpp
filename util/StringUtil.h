@@ -12,14 +12,11 @@ using namespace std;
 
 namespace StringUtil {
     const string BLANKSPACE = " ";
-    //TODO why can not delete std:: flag ?
-    bool isEquals(string string,std::string anotherString);
-    bool isNullOrEmpty(string string);
+    bool isEquals(string str1,string str2);
+    bool isNullOrEmpty(string str);
     string prefixPadding(string rawValue,int targetLength,string paddingValue);
-    string concatenate(string value1,string value2);
-    string concatenate3(string value1, string value2, string value3);
-    string concatenate3(string value1, string value2, string value3);
-    //TODO unsigned long long?64位无符号整数?
+    string concatenate(string str1,string str2);
+    string concatenate3(string str1, string str2, string str3);
     string valueOfUint64(unsigned long long number);
 };
 
