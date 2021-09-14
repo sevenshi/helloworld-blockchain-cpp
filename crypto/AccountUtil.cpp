@@ -7,14 +7,16 @@
 #include "Ripemd160Util.h"
 #include "Sha256Util.h"
 #include "Base58Util.h"
+#include "../util/StringUtil.h"
 #include <string>
 #include <stdio.h>
 #include <iostream>
 #include <openssl/ec.h>
 #include <openssl/obj_mac.h>
-
+#include <vector>
 using namespace std;
 
+const vector<unsigned char> VERSION = {0x00};
 
 Account AccountUtil::randomAccount() {
     EC_KEY* key = EC_KEY_new_by_curve_name(NID_secp256k1);
@@ -95,25 +97,57 @@ Account AccountUtil::accountFromPrivateKey(string privateKey) {
     return account;
 }
 
+string AccountUtil::publicKeyHashFromPublicKey(string publicKey) {
+    return ByteUtil::bytesToHexString(Ripemd160Util::digest(Sha256Util::digest(ByteUtil::hexStringToBytes(publicKey))));//TODO
+}
+string AccountUtil::publicKeyHashFromAddress(string address){
+    vector<unsigned char> bytesAddress = Base58Util::decode(address);
+    vector<unsigned char> bytesPublicKeyHash = ByteUtil::copy(bytesAddress, 1, 20);
+    return ByteUtil::bytesToHexString(bytesPublicKeyHash);
+}
+
+
+string AccountUtil::addressFromPrivateKey(string privateKey){
+    Account account = accountFromPrivateKey(privateKey);
+    return addressFromPublicKey(account.publicKey);
+}
 string AccountUtil::addressFromPublicKey(string publicKey) {
     string publicKeyHash = publicKeyHashFromPublicKey(publicKey);
-    return base58AddressFromPublicKeyHash0(publicKeyHash);
+    return base58AddressFromPublicKeyHash0(ByteUtil::hexStringToBytes(publicKeyHash));
 }
-const string VERSION = "00";
+string AccountUtil::addressFromPublicKeyHash(string publicKeyHash){
+    vector<unsigned char> bytesPublicKeyHash = ByteUtil::hexStringToBytes(publicKeyHash);
+    return base58AddressFromPublicKeyHash0(bytesPublicKeyHash);
+}
+//TODO
+string AccountUtil::signature(string privateKey, vector<unsigned char> bytesMessage){
+    return "";
+}
+//TODO
+bool AccountUtil::verifySignature(string publicKey, vector<unsigned char> bytesMessage, vector<unsigned char> bytesSignature){
+    return false;
+}
+string AccountUtil::formatPrivateKey(string privateKey){
+    return StringUtil::prefixPadding(privateKey,64,"0");
+}
+bool AccountUtil::isPayToPublicKeyHashAddress(string address){
+    vector<unsigned char> bytesAddress = Base58Util::decode(address);
+    vector<unsigned char> bytesPublicKeyHash(20);
+    ByteUtil::copyTo(bytesAddress, 1, 20, bytesPublicKeyHash, 0);
+    string base58Address = addressFromPublicKeyHash(ByteUtil::bytesToHexString(bytesPublicKeyHash));
+    return StringUtil::isEquals(base58Address,address);
+}
 
-string AccountUtil::base58AddressFromPublicKeyHash0(string bytesPublicKeyHash) {
+string AccountUtil::base58AddressFromPublicKeyHash0(vector<unsigned char> bytesPublicKeyHash) {
     //地址版本号(1个字节)与公钥哈希(20个字节)
-    string bytesVersionAndPublicKeyHash = ByteUtil::concatenate(VERSION,bytesPublicKeyHash);
+    vector<unsigned char> bytesVersionAndPublicKeyHash = ByteUtil::concatenate(VERSION,bytesPublicKeyHash);
     //地址校验码(4个字节)
-    string bytesCheckCode = ByteUtil::copy(Sha256Util::doubleDigest(bytesVersionAndPublicKeyHash), 0, 4);
+    vector<unsigned char> bytesCheckCode = ByteUtil::copy(Sha256Util::doubleDigest(bytesVersionAndPublicKeyHash), 0, 4);
 
     //地址(25个字节)=地址版本号(1个字节)+公钥哈希(20个字节)+地址校验码(4个字节)
-    string bytesAddress = ByteUtil::concatenate(bytesVersionAndPublicKeyHash,bytesCheckCode);
+    vector<unsigned char> bytesAddress = ByteUtil::concatenate(bytesVersionAndPublicKeyHash,bytesCheckCode);
 
     //用Base58编码地址
     string base58Address = Base58Util::encode(bytesAddress);
     return base58Address;
-}
-string AccountUtil::publicKeyHashFromPublicKey(string publicKey) {
-    return Ripemd160Util::digest(Sha256Util::digest(publicKey));
 }

@@ -5,8 +5,8 @@
 #ifndef HELLOWORLD_BLOCKCHAIN_CPP_ACCOUNTUTIL_H
 #define HELLOWORLD_BLOCKCHAIN_CPP_ACCOUNTUTIL_H
 #include <string>
+#include <vector>
 using namespace std;
-
 
 class Account{
     public:
@@ -17,11 +17,24 @@ class Account{
 };
 
 namespace AccountUtil {
-    Account randomAccount() ;
+    Account randomAccount();
     Account accountFromPrivateKey(string privateKey);
-    string addressFromPublicKey(string privateKey);
-    string base58AddressFromPublicKeyHash0(string bytesPublicKeyHash);
+
     string publicKeyHashFromPublicKey(string publicKey);
+    string publicKeyHashFromAddress(string address);
+
+    string addressFromPrivateKey(string privateKey);
+    string addressFromPublicKey(string privateKey);
+    string addressFromPublicKeyHash(string publicKeyHash);
+
+    string signature(string privateKey, vector<unsigned char> bytesMessage);
+    bool verifySignature(string publicKey, vector<unsigned char> bytesMessage, vector<unsigned char> bytesSignature);
+
+    string formatPrivateKey(string privateKey);
+    bool isPayToPublicKeyHashAddress(string address);
+
+    //TODO private scope can delete?
+    string base58AddressFromPublicKeyHash0(vector<unsigned char> bytesPublicKeyHash);
 };
 
 

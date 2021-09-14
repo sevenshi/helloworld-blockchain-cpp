@@ -1,15 +1,16 @@
 //
 // Created by 40906 on 2021/9/12.
 //
-#include <string>
-using namespace std;
-
 #ifndef UNTITLED_RIPEMD160UTIL_H
 #define UNTITLED_RIPEMD160UTIL_H
 
+#include <string>
+#include <vector>
+using namespace std;
+
 
 namespace Ripemd160Util{
-    string digest(string input);
+    vector<unsigned char> digest(vector<unsigned char> input);
 }
 
 #endif //UNTITLED_RIPEMD160UTIL_H

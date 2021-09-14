@@ -6,13 +6,14 @@
 #define UNTITLED_BASE58UTIL_H
 
 #include <string>
+#include <vector>
 using namespace std;
 
 
 namespace Base58Util {
 
-    string encode(string input) ;
-    string decode(string input) ;
+    string encode(vector<unsigned char> input) ;
+    vector<unsigned char> decode(string input) ;
 };
 
 

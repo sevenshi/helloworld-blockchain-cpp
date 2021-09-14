@@ -1,15 +1,15 @@
 //
 // Created by 40906 on 2021/9/11.
 //
-#include <string>
-
 #ifndef UNTITLED_SHA256UTIL_H
 #define UNTITLED_SHA256UTIL_H
+#include <string>
+#include <vector>
 using namespace std;
 
 namespace Sha256Util{
-    string digest(string input);
-    string doubleDigest(string input);
+    vector<unsigned char> digest(vector<unsigned char> input);
+    vector<unsigned char> doubleDigest(vector<unsigned char> input);
 }
 
 

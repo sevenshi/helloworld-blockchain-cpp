@@ -82,16 +82,16 @@ std::vector<uint8_t> Base58Decode(const std::string& data, CodecMapping mapping)
     return result;
 }
 
-string Base58Util::encode(string input) {
-    std::vector<unsigned char> bytes = ByteUtil::HexToBytes(input);
+
+string Base58Util::encode(vector<unsigned char> input) {
     CodecMapping mapping(AlphaMap, Base58Map);
-    std::string encoded_data = Base58Encode(bytes, mapping);
+    std::string encoded_data = Base58Encode(input, mapping);
     return encoded_data;
 }
-string Base58Util::decode(string input) {
+vector<unsigned char> Base58Util::decode(string input) {
     CodecMapping mapping(AlphaMap, Base58Map);
-    std::vector<uint8_t> decoded_data = Base58Decode(input, mapping);
-    return ByteUtil::uchars2hex(&decoded_data[0],decoded_data.size());
+    std::vector<unsigned char> decoded_data = Base58Decode(input, mapping);
+    return decoded_data;
 }
 
 

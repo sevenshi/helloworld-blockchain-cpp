@@ -9,12 +9,11 @@
 #include "Sha256Util.h"
 #include "ByteUtil.h"
 #include <vector>
+using namespace std;
 
-string Ripemd160Util::digest(string input)
+vector<unsigned char> Ripemd160Util::digest(vector<unsigned char> input)
 {
-    std::vector<unsigned char> bytes = ByteUtil::HexToBytes(input);
-    unsigned char result[20];
-    RIPEMD160(&bytes[0], bytes.size(), result);
-    string sha256 = ByteUtil::uchars2hex(result,sizeof result);
-    return sha256;
+    vector<unsigned char> result(20);
+    RIPEMD160(&input[0], input.size(), &result[0]);
+    return result;
 }
