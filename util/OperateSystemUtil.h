@@ -9,6 +9,7 @@
 namespace OperateSystemUtil {
     bool isWindowsOperateSystem();
     bool isMacOperateSystem();
+    bool isLinuxOperateSystem();
 };
 
 

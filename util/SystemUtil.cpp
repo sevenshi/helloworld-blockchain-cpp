@@ -3,3 +3,10 @@
 //
 
 #include "SystemUtil.h"
+
+void SystemUtil::errorExit(string message, exception exception){
+
+}
+string SystemUtil::systemRootDirectory(){
+
+}

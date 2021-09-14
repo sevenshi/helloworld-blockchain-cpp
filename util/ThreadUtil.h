@@ -5,7 +5,7 @@
 #ifndef HELLOWORLD_BLOCKCHAIN_CPP_THREADUTIL_H
 #define HELLOWORLD_BLOCKCHAIN_CPP_THREADUTIL_H
 
-
+using namespace std;
 namespace ThreadUtil {
     void millisecondSleep(long millisecond);
 };
