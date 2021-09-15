@@ -33,7 +33,7 @@ namespace ByteUtil {
     bool isEquals(vector<unsigned char> bytes1, vector<unsigned char> bytes2);
 
     vector<unsigned char> copy(vector<unsigned char> sourceBytes, int startPosition, int length);
-    void copyTo(vector<unsigned char> sourceBytes, int sourceStartPosition, int length, vector<unsigned char> destinationBytes, int destinationStartPosition);
+    void copyTo(vector<unsigned char> sourceBytes, int sourceStartPosition, int length, vector<unsigned char> &destinationBytes, int destinationStartPosition);
 
     vector<unsigned char> random32Bytes();
 

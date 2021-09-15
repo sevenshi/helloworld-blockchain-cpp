@@ -98,7 +98,9 @@ Account AccountUtil::accountFromPrivateKey(string privateKey) {
 }
 
 string AccountUtil::publicKeyHashFromPublicKey(string publicKey) {
-    return ByteUtil::bytesToHexString(Ripemd160Util::digest(Sha256Util::digest(ByteUtil::hexStringToBytes(publicKey))));//TODO
+    vector<unsigned char> bytesPublicKey = ByteUtil::hexStringToBytes(publicKey);
+    vector<unsigned char> bytesPublicKeyHash = Ripemd160Util::digest(Sha256Util::digest(bytesPublicKey));
+    return ByteUtil::bytesToHexString(bytesPublicKeyHash);
 }
 string AccountUtil::publicKeyHashFromAddress(string address){
     vector<unsigned char> bytesAddress = Base58Util::decode(address);
@@ -119,13 +121,42 @@ string AccountUtil::addressFromPublicKeyHash(string publicKeyHash){
     vector<unsigned char> bytesPublicKeyHash = ByteUtil::hexStringToBytes(publicKeyHash);
     return base58AddressFromPublicKeyHash0(bytesPublicKeyHash);
 }
-//TODO
-string AccountUtil::signature(string privateKey, vector<unsigned char> bytesMessage){
-    return "";
+vector<unsigned char> AccountUtil::signature(string privateKey, vector<unsigned char> bytesMessage){
+    BIGNUM *priv_key;
+    priv_key = BN_new();
+    BN_hex2bn(&priv_key,privateKey.c_str());
+
+    EC_GROUP *group = EC_GROUP_new_by_curve_name(NID_secp256k1);
+    EC_KEY *key = EC_KEY_new();
+    EC_POINT *pub_key = EC_POINT_new(group);
+
+    EC_KEY_set_group(key, group);
+    EC_KEY_set_private_key(key, priv_key);
+    EC_POINT_mul(group, pub_key, priv_key, NULL, NULL, NULL);
+    EC_KEY_set_public_key(key, pub_key);
+
+    vector<unsigned char> sig(100);
+    unsigned int siglen;
+    ECDSA_sign(0,&bytesMessage[0],bytesMessage.size(),&sig[0],&siglen,key);
+    vector<unsigned char> ret = ByteUtil::copy(sig,0,siglen);
+    return ret;
 }
-//TODO
 bool AccountUtil::verifySignature(string publicKey, vector<unsigned char> bytesMessage, vector<unsigned char> bytesSignature){
-    return false;
+    EC_GROUP *ec_group = EC_GROUP_new_by_curve_name(NID_secp256k1);
+    EC_POINT *pub = EC_POINT_new(ec_group);
+    EC_POINT_hex2point(ec_group, reinterpret_cast<const char *>(&publicKey[0]), pub, NULL);
+
+/*    char* stringPublicKey =  EC_POINT_point2hex(ec_group, pub,POINT_CONVERSION_COMPRESSED,NULL);
+    std::cout << "COMPRESSED public key: " << stringPublicKey << '\n';*/
+
+    EC_KEY *key = EC_KEY_new();
+    EC_POINT *pub_key = EC_POINT_new(ec_group);
+    EC_KEY_set_group(key, ec_group);
+    EC_KEY_set_public_key(key, pub_key);
+
+    EC_KEY_set_public_key(key,pub);
+    int verifyFlag = ECDSA_verify(0,&bytesMessage[0],bytesMessage.size(),&bytesSignature[0],bytesSignature.size(),key);
+    return verifyFlag == 1;
 }
 string AccountUtil::formatPrivateKey(string privateKey){
     return StringUtil::prefixPadding(privateKey,64,"0");

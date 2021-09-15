@@ -3,7 +3,7 @@
 //
 
 #include "NetUtil.h"
-#include "thirdpart/httplib/httplib.h"
+#include "../thirdpart/httplib/httplib.h"
 
 
 string  NetUtil::get(string requestUrl, string requestBody){

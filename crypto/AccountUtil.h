@@ -27,7 +27,7 @@ namespace AccountUtil {
     string addressFromPublicKey(string privateKey);
     string addressFromPublicKeyHash(string publicKeyHash);
 
-    string signature(string privateKey, vector<unsigned char> bytesMessage);
+    vector<unsigned char> signature(string privateKey, vector<unsigned char> bytesMessage);
     bool verifySignature(string publicKey, vector<unsigned char> bytesMessage, vector<unsigned char> bytesSignature);
 
     string formatPrivateKey(string privateKey);

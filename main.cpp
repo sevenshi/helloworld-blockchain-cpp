@@ -33,11 +33,12 @@ int main()
     cout << account2.publicKey << endl;
     cout << account2.publicKeyHash << endl;
     cout << account2.address << endl;
-
-
+    cout << "---------------------signature" << endl;
+    vector<unsigned char> sign = AccountUtil::signature(account2.privateKey,ByteUtil::hexStringToBytes("00"));
+    cout << ByteUtil::bytesToHexString(sign) << endl;
+    cout << AccountUtil::verifySignature(account2.publicKey,ByteUtil::hexStringToBytes("00"),sign) << endl;
+    cout << "---------------------TimeUtil" << endl;
     cout << TimeUtil::millisecondTimestamp() << endl;
     cout << TimeUtil::formatMillisecondTimestamp(TimeUtil::millisecondTimestamp()) << endl;
-
-
     return 0;
 }
