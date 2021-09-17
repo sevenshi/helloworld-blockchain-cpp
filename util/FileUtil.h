@@ -13,6 +13,7 @@ namespace FileUtil {
     string newPath(string parent, string child);
     void makeDirectory(string path);
     void deleteDirectory(string path);
+    string read(string path);
 };
 
 

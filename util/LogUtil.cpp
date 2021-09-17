@@ -7,16 +7,9 @@
 
 using namespace std;
 
-void LogUtil::log(string file, string function, long line, unsigned int level, string message) {
-	if (level == LOG_DEBUG) {
-		cout << "[D] ";
-	}
-	else if (level == LOG_ERROR) {
-		cout << "[E] ";
-	}
-
-	cout << message;
-	cout << " [" << file << ":" << function << ", " << line << "]" << endl;	
+void LogUtil::error(string message, exception exception){
+    cout << "[ERROR] " << message << " , exception :" << (&exception)->what() << endl;
 }
-
-
+void LogUtil::debug(string message){
+    cout << "[DEBUG] " << message << endl;
+}

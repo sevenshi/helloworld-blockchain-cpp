@@ -16,24 +16,24 @@ enum KvWriteActionEnum {
 class KvWrite{
     private:
         KvWriteActionEnum kvWriteActionEnum;
-        string key;
-        string value;
+        vector<unsigned char> key;
+        vector<unsigned char> value;
 };
 class KvWriteBatch{
     private:
         vector<KvWrite> kvWrites;
-    // TODO
-    void put(string key, string value);
-    void delete0(string key);
+    public:
+        void put(vector<unsigned char> key, vector<unsigned char> value);
+        void delete0(vector<unsigned char> key);
 };
 
 namespace KvDbUtil {
-    void put(string dbPath, string bytesKey, string bytesValue);
-    // TODO delete is cpp keyword
-    void delete0(string dbPath, string bytesKey);
-    string get(string dbPath, string bytesKey);
+    void put(string dbPath, vector<unsigned char> bytesKey, vector<unsigned char> bytesValue);
+    // TODO delete is cpp keyword , so named delete0
+    void delete0(string dbPath, vector<unsigned char> bytesKey);
+    string get(string dbPath, vector<unsigned char> bytesKey);
     vector<string> gets(string dbPath, long from, long size) ;
-    void put(string dbPath, string bytesKey, string bytesValue);
+    void put(string dbPath, vector<unsigned char> bytesKey, vector<unsigned char> bytesValue);
     void write(string dbPath, KvWriteBatch kvWriteBatch);
 };
 
