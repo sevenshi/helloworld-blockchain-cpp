@@ -36,10 +36,6 @@ namespace ByteUtil {
     void copyTo(vector<unsigned char> sourceBytes, int sourceStartPosition, int length, vector<unsigned char> &destinationBytes, int destinationStartPosition);
 
     vector<unsigned char> random32Bytes();
-
-    //TODO delete
-    string uchar2hex(unsigned char inchar);
-    string uchars2hex(unsigned char* uchars,int length);
 };
 
 

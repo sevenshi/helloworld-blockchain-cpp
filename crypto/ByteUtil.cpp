@@ -12,13 +12,13 @@
 using namespace std;
 
 
-string ByteUtil::uchar2hex(unsigned char inchar)
+string uchar2hex(unsigned char inchar)
 {
     ostringstream oss (ostringstream::out);
     oss << setw(2) << setfill('0') << hex << (int)(inchar);
     return oss.str();
 }
-string ByteUtil::uchars2hex(unsigned char* uchars,int length)
+string uchars2hex(unsigned char* uchars,int length)
 {
     string hexString = "";
     for (int i = 0; i < length; i++) {
@@ -36,7 +36,7 @@ vector<unsigned char> ByteUtil::hexStringToBytes(const string& hex) {
     return bytes;
 }
 string ByteUtil::bytesToHexString(vector<unsigned char> bytes) {
-    return ByteUtil::uchars2hex(&bytes[0],bytes.size());
+    return uchars2hex(&bytes[0],bytes.size());
 }
 
 //TODO TEST

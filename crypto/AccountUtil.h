@@ -32,9 +32,6 @@ namespace AccountUtil {
 
     string formatPrivateKey(string privateKey);
     bool isPayToPublicKeyHashAddress(string address);
-
-    //TODO private scope can delete?
-    string base58AddressFromPublicKeyHash0(vector<unsigned char> bytesPublicKeyHash);
 };
 
 
